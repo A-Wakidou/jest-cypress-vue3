@@ -1,0 +1,6 @@
+{
+    "component": {
+      "componentFolder": "src/views",
+      "testFiles": "**/*.spec.js"
+    }
+  }
