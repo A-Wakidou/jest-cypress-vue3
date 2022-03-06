@@ -1,4 +1,4 @@
-import { mount } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import axios from 'axios'
 import Cart from '@/views/Cart.vue'
 
@@ -17,8 +17,8 @@ var  apiDatas = [
   }
 ]
 
-it('Mock BackEnd API', async () => {
-  try{
+describe('Test API Request', () => {
+  it('Mock BackEnd API', async() => {
     axios.get.mockResolvedValue(
       [
         {
@@ -32,17 +32,13 @@ it('Mock BackEnd API', async () => {
           quantity: '15'
         }
       ])
-      .then( () => {
-        mount(Cart)
-        expect(axios.get).toHaveBeenCalledTimes(1)
-        expect(axios.get).toHaveBeenCalledWith('http://localhost:3000/cart/getCart')
-        var result = axios.get('http://localhost:3000/cart/getCart').catch(error => { throw error})
+    shallowMount(Cart)
+    expect(axios.get).toHaveBeenCalledTimes(1)
+    expect(axios.get).toHaveBeenCalledWith('http://localhost:3000/cart/getCart')
+    axios.get('http://localhost:3000/cart/getCart')
+      .then( (result) => {
         expect(result).toEqual(apiDatas)
       })
-
-
-  }
-  catch(err) {
-    console.log(err)
-  }
+      .catch(error => { console.log(error)})
+  })
 })
